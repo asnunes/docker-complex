@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t asnunes/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run asnunes/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t asnunes/multi-client ./client 
+  - docker build -t asnunes/multi-nginx ./nginx
+  - docker build -t asnunes/multi-server ./server
+  - docker build -t asnunes/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push asnunes/multi-client
+  - docker push asnunes/multi-nginx
+  - docker push asnunes/multi-server
+  - docker push asnunes/multi-worker
