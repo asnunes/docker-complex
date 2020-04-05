@@ -43,13 +43,13 @@ app.get('/values/all', async (req, res) => {
   res.send(values.rows);
 });
 
-app.get('values/current', (req, res) => {
+app.get('/values/current', (req, res) => {
   redisClient.hgetall('values', (err, values) => {
     res.send(values);
   });
 });
 
-app.post('values/', async (req, res) => {
+app.post('/values', async (req, res) => {
   const index = req.body.index;
 
   if (parseInt(index) > 40) {
@@ -63,7 +63,7 @@ app.post('values/', async (req, res) => {
   res.send({ working: true });
 });
 
-app.listen(9000, (err) => {
-  console.log("Listen on port 9000");
+app.listen(5000, (err) => {
+  console.log("Listen on port 5000");
 });
 
