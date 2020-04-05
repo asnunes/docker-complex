@@ -6,7 +6,7 @@ before_install:
   - docker build -t asnunes/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run asnunes/react-test npm test -- --coverage
+  - docker run -e CI=true asnunes/react-test npm test
 
 after_success:
   - docker build -t asnunes/multi-client ./client 
